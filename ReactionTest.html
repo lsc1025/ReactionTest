@@ -11,11 +11,11 @@
         }
 
         #box {
-            margin: 0;
+            position:relative;
             width: 200px;
             height: 200px;
-            background-color: white;
-            border: 2px solid black;
+            display:none;
+            border: 2px solid black;           
         }
 
         #box_tag {
@@ -32,6 +32,8 @@
 
             var MAX_TIMEOUT = 4000;
             var MIN_TIMEOUT = 2000;
+            var MAX_LOCATION_SCALE_X = 1000;
+            var MAX_LOCATION_SCALE_Y = 500;
 
             var clickTime = 0.0;
             var startTime = 0;
@@ -43,21 +45,24 @@
             document.getElementById("box").onclick = function () {
 
                 if (isStart && isBoxGenerated) { // Game starts after user click the start button
-                    this.style.backgroundColor = "white";
+                    this.style.display = "none";
                     document.getElementById("box_tag").style.display = "none";
                     isBoxGenerated = false;
                     endTime = Date.now();
                     calcTime();
-                    displayBox();
+                    generateBox();
                 }
 
             }
 
-            function displayBox() {
+            function generateBox() {
 
                 setTimeout(function () {
 
                     document.getElementById("box").style.backgroundColor = getRandomColor();
+                    moveToRandomLocation();
+                    randomShape();
+                    document.getElementById("box").style.display = "block";
                     document.getElementById("box_tag").style.display = "block";
                     isBoxGenerated = true;
                     startTime = Date.now();
@@ -84,11 +89,31 @@
 
             }
 
+            function moveToRandomLocation() {// allow the box to be generated in a random location
+
+                var x = Math.random() * MAX_LOCATION_SCALE_X;
+                var y = Math.random() * MAX_LOCATION_SCALE_Y;
+                
+                document.getElementById("box").style.top = y + "px";
+                document.getElementById("box").style.left = x + "px";
+
+            }
+
+            function randomShape() {
+
+                var randIndex = Math.random();
+                if (randIndex > 0.5)// make the object have a chance of 50% shown up as a circle
+                    document.getElementById("box").style.borderRadius = "100px";
+                else
+                    document.getElementById("box").style.borderRadius = "0";
+
+            }
+
             document.getElementById("start").onclick = function () {
 
                 isStart = true;
-                document.getElementById("instruction").innerHTML = "Click the red box as quickly as you can.";
-                displayBox();
+                document.getElementById("instruction").innerHTML = "Click the colorful object as quickly as you can.";
+                generateBox();
 
             }
         }
@@ -104,17 +129,17 @@
 
     <h1 id="welcome">Greetings!</h1>
 
-    <div id="box">
-
-        <p id="box_tag">Click Me Now!</p>
-
-    </div>
-
     <p id="instruction">Click the start button when you are ready.</p>
 
     <p id="result"></p>
 
     <button id="start">Start</button>
+    
+    <div id="box">
+
+    <p id="box_tag">Click Me Now!</p>
+
+    </div>
 
 </body>
 </html>
