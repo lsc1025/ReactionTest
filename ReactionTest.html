@@ -37,13 +37,15 @@
             var startTime = 0;
             var endTime = 0;
             var isStart = false;
+            var isBoxGenerated = false;
 
 
             document.getElementById("box").onclick = function () {
 
-                if (isStart) { // Game starts after user click the start button
+                if (isStart && isBoxGenerated) { // Game starts after user click the start button
                     this.style.backgroundColor = "white";
                     document.getElementById("box_tag").style.display = "none";
+                    isBoxGenerated = false;
                     endTime = Date.now();
                     calcTime();
                     displayBox();
@@ -57,6 +59,7 @@
 
                     document.getElementById("box").style.backgroundColor = getRandomColor();
                     document.getElementById("box_tag").style.display = "block";
+                    isBoxGenerated = true;
                     startTime = Date.now();
 
                 }, (Math.random() * MAX_TIMEOUT + MIN_TIMEOUT)); // display the box after a random period of time
@@ -84,7 +87,7 @@
             document.getElementById("start").onclick = function () {
 
                 isStart = true;
-                document.getElementById("instruction").innerHTML = "Click the colorful box as quickly as you can.";
+                document.getElementById("instruction").innerHTML = "Click the red box as quickly as you can.";
                 displayBox();
 
             }
