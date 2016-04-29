@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+
+    <title>Reaction Test</title>
+
+    <style type="text/css">
+
+        body{
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color:aqua;
+        }
+
+        #box{
+            margin:0;
+            width:200px;
+            height:200px;
+            background-color:white;
+            border: 2px solid black;
+        }
+        #box_tag{
+            margin:0;
+            text-align:center;
+            line-height:200px;
+            display:none;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        window.onload = function () {
+
+            var MAX_TIMEOUT = 4000;
+            var MIN_TIMEOUT = 2000;
+
+            var clickTime = 0.0;
+            var startTime = 0;
+            var endTime = 0;
+            var isStart = false;
+            
+ 
+            document.getElementById("box").onclick = function () {
+
+                if (isStart) { // Game starts after user click the start button
+                    this.style.backgroundColor = "white";
+                    document.getElementById("box_tag").style.display = "none";
+                    endTime = Date.now();
+                    calcTime();
+                    displayBox();
+                }
+
+            }
+
+            function displayBox() {
+
+                setTimeout(function () {
+
+                    document.getElementById("box").style.backgroundColor = "red";
+                    document.getElementById("box_tag").style.display = "block";
+                    startTime = Date.now();
+
+                }, (Math.random() * MAX_TIMEOUT + MIN_TIMEOUT)); // display the box after a random period of time
+
+            }
+
+            function calcTime() {
+
+                clickTime = (endTime - startTime) / 1000;
+                document.getElementById("result").innerHTML = "Your result: " + clickTime + " seconds.";//display the result
+
+            }
+
+            document.getElementById("start").onclick = function () {
+
+                isStart = true;
+                document.getElementById("instruction").innerHTML = "Click the red box as quickly as you can.";
+                displayBox();
+               
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h1 id="welcome">Greetings!</h1>
+   
+    <div id="box">
+
+        <p id="box_tag">Click Me Now!</p>
+
+    </div>
+
+    <p id="instruction">Click the start button when you are ready.</p>
+
+    <p id="result"></p>
+
+    <button id="start">Start</button>
+    
+</body>
+</html>
